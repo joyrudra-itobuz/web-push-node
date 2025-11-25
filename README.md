@@ -19,16 +19,15 @@ server/   # Bun + Express API with subscription storage and web-push integration
 
 ## Prerequisites
 
-- [Bun](https://bun.sh/) ≥ 1.1 for the server.
-- Node.js ≥ 18 for the client tooling.
+- [Bun](https://bun.sh/) ≥ 1.1 (used for both server + client tooling).
 - VAPID keys for Web Push (see below).
 
 ## Generate VAPID keys
 
-Use any `web-push` CLI (via `npx`, `bunx`, or global install):
+Use `bunx web-push` (or any global install):
 
 ```bash
-npx web-push generate-vapid-keys
+bunx web-push generate-vapid-keys
 ```
 
 Record the `Public Key` and `Private Key` values:
@@ -68,12 +67,12 @@ The helper reuses the same service (`src/service/notification.service.ts`) as th
 
 ```bash
 cd client
-npm install
+bun install
 cat <<'EOF' > .env
 VITE_SERVER_URL=http://localhost:3000
 VITE_VAPID_PUBLIC_KEY=<public key>
 EOF
-npm run dev
+bun run dev
 ```
 
 Open the printed Vite URL (default `http://localhost:5173`). Grant notification permission, subscribe, and then use the "Fetch Notifications" button to request a push for the current browser user.
