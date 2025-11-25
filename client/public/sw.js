@@ -1,8 +1,10 @@
 self.addEventListener("push", (event) => {
+  const DEFAULT_ICON = "/favicon.svg";
   let data = {
     title: "Notification",
     body: "You have a new message.",
     url: "/",
+    icon: DEFAULT_ICON,
   };
   try {
     if (event.data) {
@@ -17,7 +19,9 @@ self.addEventListener("push", (event) => {
   const title = data.title || "Notification";
   const options = {
     body: data.body || "",
-    icon: data.icon || "/favicon.png",
+    icon: data.icon || DEFAULT_ICON,
+    badge: data.icon || DEFAULT_ICON,
+    image: data.image || data.banner || undefined,
     data: { url: data.url || "/" },
   };
 

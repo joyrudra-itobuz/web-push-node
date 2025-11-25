@@ -8,6 +8,7 @@ Proof-of-concept showcasing an end-to-end browser push notification flow with a 
 - Persist subscriptions in `server/databases/db.json` for quick prototyping.
 - Trigger random notifications per-user via the API or the `bun run notify` helper.
 - Service Worker (`client/public/sw.js`) surfaces pushes both as OS notifications and inside the demo UI.
+- Notifications ship with the shared `public/nodeJS.svg` icon (also used as the favicon) and randomly attach `public/banner.jpg` for richer previews.
 
 ## Repository layout
 
@@ -47,6 +48,8 @@ bun dev
 
 - The API listens on `http://localhost:3000` by default.
 - Subscriptions are stored in `databases/db.json`. Delete the file to reset state.
+- Static assets under `server/public` are exposed at `/public/**` and reused in push payloads (icon/banner, favicon, etc.).
+- Optional: set `ASSET_BASE_URL` if your public hostname differs from `http://localhost:3000`.
 
 ### Manual notification helper
 
@@ -74,6 +77,7 @@ npm run dev
 ```
 
 Open the printed Vite URL (default `http://localhost:5173`). Grant notification permission, subscribe, and then use the "Fetch Notifications" button to request a push for the current browser user.
+The client automatically points its favicon to the shared `nodeJS.svg` that lives in the server's `public` directory.
 
 ## API reference
 

@@ -14,7 +14,9 @@ export type NotificationPayload = {
   title: string;
   body: string;
   url?: string;
-  icon?: string;
+  icon: string;
+  image?: string;
+  banner?: string;
   timestamp: string;
 };
 
@@ -56,6 +58,27 @@ const URLS = [
   "https://web.dev",
   "/inbox",
 ];
+
+const assetBaseUrl = (() => {
+  const base =
+    process.env.ASSET_BASE_URL ||
+    process.env.SERVER_PUBLIC_URL ||
+    process.env.SERVER_URL ||
+    process.env.APP_URL ||
+    `http://localhost:${process.env.PORT ?? 3000}`;
+  return base.replace(/\/$/, "");
+})();
+
+const ICON_FILENAME = "nodeJS.svg";
+const BANNER_FILENAMES = ["banner.jpg"];
+
+function buildAssetUrl(file: string) {
+  const normalized = file.replace(/^\/+/, "");
+  return `${assetBaseUrl}/public/${normalized}`;
+}
+
+const ICON_URL = buildAssetUrl(ICON_FILENAME);
+const BANNER_URLS = BANNER_FILENAMES.map(buildAssetUrl);
 
 let isWebPushConfigured = false;
 
@@ -144,12 +167,21 @@ export async function saveSubscription(
 function buildNotificationPayload(
   overrides?: Partial<NotificationPayload>
 ): NotificationPayload {
+  const bannerCandidate = (() => {
+    if (overrides?.image) return overrides.image;
+    if (overrides?.banner) return overrides.banner;
+    if (!BANNER_URLS.length) return undefined;
+    return Math.random() >= 0.5 ? randomFrom(BANNER_URLS) : undefined;
+  })();
+
   return {
     id: randomUUID(),
     title: overrides?.title ?? randomFrom(TITLES),
     body: overrides?.body ?? randomFrom(BODIES),
     url: overrides?.url ?? randomFrom(URLS),
-    icon: overrides?.icon,
+    icon: overrides?.icon ?? ICON_URL,
+    image: overrides?.image ?? bannerCandidate,
+    banner: overrides?.banner ?? bannerCandidate,
     timestamp: new Date().toISOString(),
   };
 }

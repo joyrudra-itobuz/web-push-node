@@ -15,6 +15,7 @@ export function bindServiceWorkerBridge() {
       body: payload.data?.body,
       url: payload.data?.url,
       icon: payload.data?.icon,
+      image: payload.data?.image ?? payload.data?.banner,
       timestamp: payload.data?.timestamp,
     });
   });

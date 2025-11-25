@@ -39,8 +39,25 @@
                 This is a sample notification body to demonstrate styling.
               </p>
 
+              <div
+                class="notification-media flex flex-col gap-2 text-white"
+                style="display: none"
+              >
+                <div class="flex items-center gap-2">
+                  <img
+                    class="notification-icon w-10 h-10 rounded-full border border-white/40 hidden"
+                    alt="Notification icon"
+                  />
+                  <span class="text-sm opacity-80">Notification icon</span>
+                </div>
+                <img
+                  class="notification-banner max-h-40 rounded-lg hidden"
+                  alt="Notification banner"
+                />
+              </div>
+
               <div class="flex justify-between">
-                <p>13:05</p>
+                <p class="notification-timestamp">13:05</p>
 
                 <div class="flex gap-2">
                   <button

@@ -17,6 +17,8 @@ export type RemoteNotification = {
   body: string;
   url?: string;
   icon?: string;
+  image?: string;
+  banner?: string;
   timestamp?: string;
 };
 
