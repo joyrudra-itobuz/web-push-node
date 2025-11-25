@@ -20,6 +20,15 @@ export type RemoteNotification = {
   timestamp?: string;
 };
 
+export type NotificationDispatchResponse = {
+  message: string;
+  success: boolean;
+  timestamp?: string;
+  userId?: string | null;
+  notification?: RemoteNotification | null;
+  targetCount?: number;
+};
+
 export async function sendSubscriptionToServer(
   subscription: PushSubscriptionJSON,
   userId: string
@@ -38,7 +47,7 @@ export async function sendSubscriptionToServer(
   }
 }
 
-export async function fetchNotificationsFromServer() {
+export async function requestNotificationFromServer() {
   try {
     const userId = getOrCreateUserId();
     const query = userId ? `?userId=${encodeURIComponent(userId)}` : "";
@@ -48,10 +57,10 @@ export async function fetchNotificationsFromServer() {
       },
     });
     if (!res.ok) throw new Error(`Server responded ${res.status}`);
-    const data = await res.json();
-    return (data?.notification ?? null) as RemoteNotification | null;
+    const data = (await res.json()) as NotificationDispatchResponse;
+    return data;
   } catch (err) {
-    console.error("fetchNotificationsFromServer error", err);
-    return null;
+    console.error("requestNotificationFromServer error", err);
+    throw err;
   }
 }
