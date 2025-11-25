@@ -1,11 +1,11 @@
 import express from "express";
-import DefaultController from "../controller/default.controller";
+import NotificationController from "../controller/notification.controller";
 
 const router = express.Router();
 
-const defaultController = new DefaultController();
+const notificationController = new NotificationController();
 
-router.get("/", defaultController.getRoute);
-router.post("/health", defaultController.postRoute);
+router.get("/", notificationController.trigger);
+router.post("/", notificationController.subscribe);
 
 export default router;

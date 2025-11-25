@@ -4,13 +4,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch --hot --inspect src/index.ts"
+    "dev": "bun --watch --hot --inspect src/index.ts",
+    "notify": "bun src/scripts/send-notification.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "@types/web-push": "^3.6.4"
   },
   "peerDependencies": {
     "typescript": "^5"

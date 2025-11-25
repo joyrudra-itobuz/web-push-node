@@ -13,7 +13,7 @@ function startServer() {
   app.use(express.json());
   app.use(loggerMiddleware);
 
-  app.use("/notification", router);
+  app.use("/notifications", router);
 
   // Sample route
   app.get("/", (req, res) => {
