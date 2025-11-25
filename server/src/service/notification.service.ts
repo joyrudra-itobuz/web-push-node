@@ -98,8 +98,12 @@ function getVapidKeys() {
 }
 
 function ensureWebPushConfigured() {
-  if (isWebPushConfigured) return;
+  if (isWebPushConfigured) {
+    return;
+  }
+
   const { publicKey, privateKey } = getVapidKeys();
+
   webpush.setVapidDetails("mailto:admin@localhost", publicKey, privateKey);
   isWebPushConfigured = true;
 }
@@ -168,9 +172,16 @@ function buildNotificationPayload(
   overrides?: Partial<NotificationPayload>
 ): NotificationPayload {
   const bannerCandidate = (() => {
-    if (overrides?.image) return overrides.image;
-    if (overrides?.banner) return overrides.banner;
-    if (!BANNER_URLS.length) return undefined;
+    if (overrides?.image) {
+      return overrides.image;
+    }
+    if (overrides?.banner) {
+      return overrides.banner;
+    }
+    if (!BANNER_URLS.length) {
+      return undefined;
+    }
+
     return Math.random() >= 0.5 ? randomFrom(BANNER_URLS) : undefined;
   })();
 
